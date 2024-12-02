@@ -10,27 +10,27 @@ for steps in range(1, 9):  # max len; 9 is enough here
         safe.add(tuple(itertools.accumulate((0, ) + vals)))
 
 
+def is_safe(r):
+    return tuple(x - min(r) for x in r) in safe
+
+
 reports = [
     [int(x) for x in line.split()]
     for line in txt.splitlines()
 ]
-reports_normed = [
-    tuple(x - min(report) for x in report)
-    for report in reports
-]
 
 part1 = sum(
-    report in safe or report[::-1] in safe
-    for report in reports_normed
+    is_safe(report) or is_safe(report[::-1])
+    for report in reports
 )
 print(part1)
 
 part2 = sum(
     any(
-        report[:i] + report[i+1:] in safe
+        is_safe(report[:i] + report[i+1:])
         for report in [base_report, base_report[::-1]]
         for i in range(len(report) + 1)
     )
-    for base_report in reports_normed
+    for base_report in reports
 )
 print(part2)
