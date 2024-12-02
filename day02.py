@@ -24,3 +24,14 @@ part1 = sum(
     for report in reports_normed
 )
 print(part1)
+
+part2 = sum(
+    report in safe_by_len[len(report)]
+    or any(
+        report[:i] + report[i+1:] in safe_by_len[len(report) - 1]
+        for i in range(len(report))
+    )
+    for base_report in reports_normed
+    for report in [base_report, base_report[::-1]]
+)
+print(part2)
