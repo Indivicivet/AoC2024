@@ -28,9 +28,9 @@ print(part1)
 part2 = sum(
     any(
         report[:i] + report[i+1:] in safe
+        for report in [base_report, base_report[::-1]]
         for i in range(len(report) + 1)
     )
     for base_report in reports_normed
-    for report in [base_report, base_report[::-1]]
 )
 print(part2)
