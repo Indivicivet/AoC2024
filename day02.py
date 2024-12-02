@@ -3,6 +3,11 @@ from pathlib import Path
 
 txt = (Path(__file__).parent / "inputs" / "day02.txt").read_text()
 
+reports = [
+    [int(x) for x in line.split()]
+    for line in txt.splitlines()
+]
+
 # generate all possible values assuming min = 0 and ignoring reversals
 safe = set()
 for steps in range(1, 9):  # max len; 9 is enough here
@@ -13,11 +18,6 @@ for steps in range(1, 9):  # max len; 9 is enough here
 def is_safe(r):
     return tuple(x - min(r) for x in r) in safe
 
-
-reports = [
-    [int(x) for x in line.split()]
-    for line in txt.splitlines()
-]
 
 part1 = sum(
     is_safe(report) or is_safe(report[::-1])
