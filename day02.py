@@ -29,7 +29,7 @@ part2 = sum(
     any(
         is_safe(report[:i] + report[i+1:])
         for report in [base_report, base_report[::-1]]
-        for i in range(len(report) + 1)
+        for i in range(len(report))
     )
     for base_report in reports
 )
