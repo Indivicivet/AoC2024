@@ -18,7 +18,7 @@ arr = np.array([
 ])
 print(arr)
 
-PHASE_RATE = np.pi / 2
+PHASE_RATE = np.pi / 4
 phased = np.exp(1j * PHASE_RATE * arr)
 template_raw = np.exp(-1j * PHASE_RATE * np.arange(4)[:, np.newaxis])
 
@@ -33,7 +33,7 @@ convs = [
     for traverse_sign in [-1, 1]
 ]
 print(sum(
-    np.sum(np.abs(conv > 4 - 0.001))
+    np.sum(np.abs(conv) > 4 - 0.001)
     for conv in convs
 ))
 
