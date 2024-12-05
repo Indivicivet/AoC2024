@@ -22,6 +22,7 @@ PHASE_RATE = np.pi / 4
 phased = np.exp(1j * PHASE_RATE * arr)
 template_raw = np.exp(-1j * PHASE_RATE * np.arange(4)[:, np.newaxis])
 
+assert PHASE_RATE != np.pi / 2, "you might double count..."
 convs = [
     signal.convolve(phased, template[::traverse_sign, ::traverse_sign])
     for template in [
