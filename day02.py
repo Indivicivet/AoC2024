@@ -1,11 +1,10 @@
 import itertools
-from pathlib import Path
 
-txt = (Path(__file__).parent / "inputs" / "day02.txt").read_text()
+from aocd import data
 
 reports = [
     [int(x) for x in line.split()]
-    for line in txt.splitlines()
+    for line in data.splitlines()
 ]
 
 # generate all possible values assuming min = 0 and ignoring reversals
