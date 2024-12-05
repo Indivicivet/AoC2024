@@ -18,13 +18,23 @@ arr = np.array([
 ])
 print(arr)
 
-PHASE_RATE = 0.1  # could be pi/4, maybe is better not being, idk
+PHASE_RATE = np.pi / 4
 phased = np.exp(1j * PHASE_RATE * arr)
-template1 = np.exp(-1j * PHASE_RATE * np.arange(4)[:, np.newaxis])
+template_raw = np.exp(-1j * PHASE_RATE * np.arange(4)[:, np.newaxis])
 
-conv = signal.convolve(phased, template1)
-print(conv)
-print(np.sum(np.abs(conv > 4 - 0.0001)))
+convs = [
+    signal.convolve(phased, template[::traverse_sign, ::traverse_sign])
+    for template in [
+        template_raw,
+        template_raw.T,  # vertical
+        np.diagflat(template_raw),  # diagonal
+    ]
+    for traverse_sign in [-1, 1]
+]
+print(sum(
+    np.sum(np.abs(conv > 4 - 0.001))
+    for conv in convs
+))
 
 # fourier = np.fft.fft2(phased)
 # Image.fromarray(10 * np.abs(fourier) ** 0.5).show()
