@@ -28,6 +28,7 @@ convs = [
         template_raw,
         template_raw.T,  # vertical
         np.diagflat(template_raw),  # diagonal
+        np.flipud(np.diagflat(template_raw)),  # the other diagonal...
     ]
     for traverse_sign in [-1, 1]
 ]
