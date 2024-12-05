@@ -9,6 +9,7 @@ can you do that nicely using an FFT to get all matches at once?
 
 from aocd import data
 import numpy as np
+from scipy import signal
 from PIL import Image
 
 arr = np.array([
@@ -17,7 +18,13 @@ arr = np.array([
 ])
 print(arr)
 
-phased = np.exp(1j * 0.1 * arr)
+PHASE_RATE = 0.1  # could be pi/4, maybe is better not being, idk
+phased = np.exp(1j * PHASE_RATE * arr)
+template1 = np.exp(-1j * PHASE_RATE * np.arange(4)[:, np.newaxis])
+
+conv = signal.convolve(phased, template1)
+print(conv)
+print(np.sum(np.abs(conv > 4 - 0.0001)))
 
 # fourier = np.fft.fft2(phased)
 # Image.fromarray(10 * np.abs(fourier) ** 0.5).show()
