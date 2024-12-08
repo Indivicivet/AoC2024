@@ -9,7 +9,8 @@ for j, row in enumerate(data.splitlines()):
     for i, val in enumerate(row):
         nodes[val].append((j, i))
 
-LEN = len("..........................................U.......")
+LEN = len(data.splitlines()[0])
+LENY = len(data.splitlines())
 total_antinodes = 0
 antinodes = defaultdict(lambda: np.array([LEN]*2))
 for key, positions in nodes.items():
@@ -26,7 +27,7 @@ for key, positions in nodes.items():
                     (position2[0] + offs_y, position2[1] + offs_x),
                     (position[0] - offs_y, position[1] - offs_x),
                 ]:
-                    if harm[0] < 0 or harm[1] < 0 or harm[0] >= LEN or harm[1] >= LEN:
+                    if harm[0] < 0 or harm[1] < 0 or harm[0] >= LENY or harm[1] >= LEN:
                         continue
                     antinodes[harm] = 1
 print(sum(np.sum(anvals) for anvals in antinodes.values()))
