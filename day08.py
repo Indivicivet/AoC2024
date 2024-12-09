@@ -17,15 +17,15 @@ for part2 in [False, True]:
     for key in nodes:
         if key == ".":
             continue
-        for position in nodes[key]:
-            for position2 in nodes[key]:
-                if position == position2:
+        for x0, y0 in nodes[key]:
+            for x1, y1 in nodes[key]:
+                offs_x = x1 - x0
+                offs_y = y1 - y0
+                if not (offs_x or offs_y):
                     continue
-                offs_x = position2[1] - position[1]
-                offs_y = position2[0] - position[0]
                 for offs_rel_pos in range(-LEN-1, LEN+1) if part2 else [-1, 2]:
-                    harm_x = position[0] + offs_y * offs_rel_pos
-                    harm_y = position[1] + offs_x * offs_rel_pos
+                    harm_x = x0 + offs_x * offs_rel_pos
+                    harm_y = y0 + offs_y * offs_rel_pos
                     if harm_x < 0 or harm_y < 0 or harm_y >= LENY or harm_x >= LEN:
                         continue
                     antinodes[harm_y, harm_x] = 1
