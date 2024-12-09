@@ -21,6 +21,8 @@ for key, positions in nodes.items():
             continue
         for position in positions:
             for position2 in positions2:
+                if position == position2:
+                    continue
                 offs_x = position2[1] - position[1]
                 offs_y = position2[0] - position[0]
                 for harm in [
