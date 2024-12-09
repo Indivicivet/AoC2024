@@ -14,22 +14,19 @@ LENY = len(data.splitlines())
 
 for part2 in [False, True]:
     antinodes = np.zeros([LENY, LEN], dtype=int)
-    for key, positions in nodes.items():
-        for key2, positions2 in nodes.items():
-            if key != key2:
-                continue
-            if key == ".":
-                continue
-            for position in positions:
-                for position2 in positions2:
-                    if position == position2:
+    for key in nodes:
+        if key == ".":
+            continue
+        for position in nodes[key]:
+            for position2 in nodes[key]:
+                if position == position2:
+                    continue
+                offs_x = position2[1] - position[1]
+                offs_y = position2[0] - position[0]
+                for offs_rel_pos in range(-LEN-1, LEN+1) if part2 else [-1, 2]:
+                    harm_x = position[0] + offs_y * offs_rel_pos
+                    harm_y = position[1] + offs_x * offs_rel_pos
+                    if harm_x < 0 or harm_y < 0 or harm_y >= LENY or harm_x >= LEN:
                         continue
-                    offs_x = position2[1] - position[1]
-                    offs_y = position2[0] - position[0]
-                    for offs_rel_pos in range(-LEN-1, LEN+1) if part2 else [-1, 2]:
-                        harm_x = position[0] + offs_y * offs_rel_pos
-                        harm_y = position[1] + offs_x * offs_rel_pos
-                        if harm_x < 0 or harm_y < 0 or harm_y >= LENY or harm_x >= LEN:
-                            continue
-                        antinodes[harm_y, harm_x] = 1
+                    antinodes[harm_y, harm_x] = 1
     print(np.sum(antinodes))
