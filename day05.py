@@ -1,7 +1,4 @@
 from collections import defaultdict
-import random
-
-from tqdm import tqdm
 
 from aocd import data
 
@@ -14,24 +11,29 @@ for row in raw_page_rules.splitlines():
 updates = [row.split(",") for row in raw_updates.splitlines()]
 
 
-def is_ok(upd):
-    return all(
-        later_page not in upd[:i]
-        for i, v in enumerate(upd)
-        for later_page in page_order_graph[v]
-    )
+def find_first_violation_indices(upd):
+    try:
+        return next(
+            (i, upd.index(later_page))
+            for i, v in enumerate(upd)
+            for later_page in page_order_graph[v]
+            if later_page in upd[:i]
+        )
+    except StopIteration:
+        return None
 
 
 result = sum(
     int(update[len(update) // 2])
     for update in updates
-    if is_ok(update)
+    if find_first_violation_indices(update) is None
 )
 print(result)
 
 result_all_fixed = 0
-for update in tqdm(updates):
-    while not is_ok(update):
-        random.shuffle(update)  # this is insanely slow.
+for update in updates:
+    while (ab := find_first_violation_indices(update)) is not None:
+        # if we have any mismatches, swap them, until we're sorted
+        update[ab[0]], update[ab[1]] = update[ab[1]], update[ab[0]]
     result_all_fixed += int(update[len(update) // 2])
 print(result_all_fixed - result)
