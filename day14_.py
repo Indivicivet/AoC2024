@@ -32,12 +32,18 @@ def tile_getter():
     for i in range(9999999999):
         # viz
         arr = np.zeros((HEIGHT, WIDTH), dtype=np.uint8)
-        if i % GRID_MINOR == 0 or (i // H_TILES) % GRID_MINOR == 0:
-            arr[...] = 8
-        if i % GRID_MAJOR == 0 or (i // H_TILES) % GRID_MAJOR == 0:
-            arr[...] = 16
-        arr[0, ...] = 32
-        arr[..., 0] = 32
+        if i % GRID_MINOR == 0:
+            arr[..., :WIDTH // 8] = 32
+        if (i // H_TILES) % GRID_MINOR == 0:
+            arr[:HEIGHT // 8, ...] = 32
+        if i % GRID_MAJOR == 0:
+            arr[..., :WIDTH // 5] = 48
+        if (i // H_TILES) % GRID_MAJOR == 0:
+            arr[:HEIGHT // 5, ...] = 48
+        arr[0, ...] = 128
+        arr[..., 0] = 128
+        arr[-1, ...] = 128
+        arr[..., -1] = 128
         for (px, py), _ in robots:
             arr[py, px] = 255
         yield arr
