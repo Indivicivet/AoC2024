@@ -1,5 +1,6 @@
 from aocd import data
 
+
 # state machine approach, since regex would make this boring
 def get_multiplies(enable_do_dont_triggers):
     enabled = True
@@ -47,7 +48,9 @@ def get_multiplies(enable_do_dont_triggers):
                     enabled = False
                 elif (
                     enabled
-                    and isinstance(stack, list) and len(stack) == 2 and stack[1] != ""
+                    and isinstance(stack, list)
+                    and len(stack) == 2
+                    and stack[1] != ""
                 ):
                     cmd = f"mul({stack[0]},{stack[1]})"
                     assert cmd in data, cmd
