@@ -64,5 +64,5 @@ Image.fromarray(tiles).show()
 c = "rgb".index(input("colour [rgb]? ").lower())
 
 i = int(input("column? "))
-j = int(input("row?" ))
+j = int(input("row? "))
 print((c * H_TILES * V_TILES + j * H_TILES + i) % (H_TILES * V_TILES * 3))
