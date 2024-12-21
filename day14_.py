@@ -10,6 +10,12 @@ HEIGHT = 103
 GRID_MAJOR = 10
 GRID_MINOR = 5
 
+H_TILES = 70
+V_TILES = 50
+assert H_TILES % GRID_MAJOR == 0  # for the print
+assert V_TILES % GRID_MAJOR == 0
+assert H_TILES * V_TILES * 3 >= WIDTH * HEIGHT
+
 
 def tile_getter():
     robots = []
@@ -26,9 +32,9 @@ def tile_getter():
     for i in range(9999999999):
         # viz
         arr = np.zeros((HEIGHT, WIDTH), dtype=np.uint8)
-        if i % GRID_MINOR == 0 or (i // GRID_MINOR) % GRID_MINOR == 0:
+        if i % GRID_MINOR == 0 or (i // H_TILES) % GRID_MINOR == 0:
             arr[...] = 8
-        if i % GRID_MAJOR == 0 or (i // GRID_MAJOR) % GRID_MAJOR == 0:
+        if i % GRID_MAJOR == 0 or (i // H_TILES) % GRID_MAJOR == 0:
             arr[...] = 16
         arr[0, ...] = 32
         arr[..., 0] = 32
@@ -42,12 +48,6 @@ def tile_getter():
 
 
 tile = tile_getter()
-
-H_TILES = 70
-V_TILES = 50
-assert H_TILES % GRID_MAJOR == 0  # for the print
-assert V_TILES % GRID_MAJOR == 0
-assert H_TILES * V_TILES * 3 >= WIDTH * HEIGHT
 
 tiles = np.dstack([
     np.vstack([
