@@ -3,6 +3,10 @@ import numpy as np
 from PIL import Image
 from tqdm import tqdm
 
+# for custom:
+# import day14_part2_customizer
+# data = day14_part2_customizer.from_image_path("extras/xmas_tree_1.png")
+
 
 WIDTH = 101
 HEIGHT = 103
