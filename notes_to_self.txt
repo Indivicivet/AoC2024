@@ -1,0 +1,3 @@
+day10 - do by hand?
+day16 - maze (+fun manifold geometry)
+day18 - another maze
