@@ -2,9 +2,10 @@
 can you do day8 with fourier transforms...?
 """
 
-import numpy as np
-from aocd import data
 from collections import defaultdict
+
+from aocd import data
+import numpy as np
 
 print(data)
 
