@@ -4,12 +4,15 @@ from scipy import sparse
 ROTATION_COST = 1000
 MOVE_COST = 1
 
-open_tiles = {
-    (i, j)
+tile_types = {
+    (i, j): c
     for j, row in enumerate(data.splitlines())
     for i, c in enumerate(row)
-    if c == "."
 }
+open_tiles = {pos for pos, t in tile_types.items() if t != "X"}
+start = next(pos for pos, t in tile_types.items() if t == "S")
+end = next(pos for pos, t in tile_types.items() if t == "E")
+
 circle = [
     (1, 0),  # east
     (0, 1),  # north
@@ -46,17 +49,13 @@ for pt0, pt0_neighbours in graph.items():
         pt1s.append(make_1d(*pt1))
         weights.append(weight)
 sparse_mat = sparse.coo_matrix((weights, (pt0s, pt1s)))
-left = min(i for i, _ in open_tiles)
-bottom = max(j for _, j in open_tiles)
-right = max(i for i, _ in open_tiles)
-top = min(j for _, j in open_tiles)
-print(open_tiles)
 dijkstra_res = sparse.csgraph.dijkstra(
     sparse_mat,
-    indices=make_1d(21, 6, 1, 0),  # start facing east
+    indices=make_1d(*start, 1, 0),  # start facing east
 )
+# end in any orientation:
 results = [
-    dijkstra_res[make_1d(21, 6, di, dj)]
+    dijkstra_res[make_1d(*end, di, dj)]
     for di, dj in circle
 ]
-print(results)
+print(min(results))
