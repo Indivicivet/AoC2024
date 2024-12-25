@@ -58,9 +58,8 @@ dijkstra_res = sparse.csgraph.dijkstra(
     sparse_mat,
     indices=make_1d(*start, 1, 0),  # start facing east
 )
-# end in any orientation:
 results = [
-    dijkstra_res[make_1d(*end, di, dj)]
+    dijkstra_res[make_1d(*end, di, dj)]  # end in any orientation:
     for di, dj in circle
 ]
 print(min(results))
