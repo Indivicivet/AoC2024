@@ -27,7 +27,7 @@ graph = {
     ]
     + (  # move option - only one possibility
         [((i + di, j + dj, di, dj), MOVE_COST)]
-        if (i + di, j + di) in open_tiles
+        if (i + di, j + dj) in open_tiles
         else []
     )
     for i, j in open_tiles
