@@ -17,17 +17,20 @@ circle = [
     (-1, 0),  # west
     (0, -1),  # south
 ]
-graph = defaultdict(list)  # node A -> [(node B, cost)]
-for i, j in open_tiles:
-    for di, dj in circle:
-        first = (i, j, di, dj)
-        for di2, dj2 in circle:
-            if abs(di) != abs(di2):  # only include perpendicular, and we're in C4
-                graph[first].append(((i, j, di2, dj2), ROTATION_COST))
-        i2 = i + di
-        j2 = j + dj
-        if (i2, j2) in open_tiles:
-            graph[first].append(((i2, j2, di, dj), MOVE_COST))
+graph = {
+    (i, j, di, dj): [  # rotations; two possible
+        ((i, j, di2, dj2), ROTATION_COST)
+        for di2, dj2 in circle
+        if abs(di) != abs(di2)  # only include perpendicular, and we're in C4
+    ]
+    + (  # move option - only one possibility
+        [((i + di, j + dj, di, dj), MOVE_COST)]
+        if (i + di, j + di) in open_tiles
+        else []
+    )
+    for i, j in open_tiles
+    for di, dj in circle
+}
 
 print(graph)
 # todo :: now we djikstra
