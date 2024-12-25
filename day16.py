@@ -9,7 +9,7 @@ tile_types = {
     for j, row in enumerate(data.splitlines())
     for i, c in enumerate(row)
 }
-open_tiles = {pos for pos, t in tile_types.items() if t != "X"}
+open_tiles = {pos for pos, t in tile_types.items() if t != "#"}
 start = next(pos for pos, t in tile_types.items() if t == "S")
 end = next(pos for pos, t in tile_types.items() if t == "E")
 
